@@ -1,6 +1,5 @@
 ﻿import {_alert, _confirm} from '../../functions/message';
 import { validarEmail } from "../../functions/validate";
-import { generateRecaptcha } from "../../ui/modules/recaptcha";
 
 $(document).ready(function () {
     //checkEmail();
@@ -11,10 +10,9 @@ $(document).ready(function () {
 
 function checkLogin() {
 
-    $("#checkLogin").unbind().on("click", function () {
+    $("#checkLogin").on("click", function () {
         $(this).addClass("loading");
         var strLogin = $("#login").val();
-        var googleResponse = $("[id^=googleResponse]", "body").length > 0 ? $("[id^=googleResponse]", "body").val() : "";
 
         var isValidEmail = validarEmail(strLogin);
         var isValidCpf = $.fn["jetCheckout"].validateCPF(strLogin);
@@ -34,27 +32,11 @@ function checkLogin() {
                 url: "/checkout/CheckLogin",
                 data: {
                     email: isValidEmail ? strLogin : "",
-                    cpfCnpj: (isValidCpf || isValidCnpj) ? strLogin : "",
-                    googleResponse: googleResponse
+                    cpfCnpj: (isValidCpf || isValidCnpj) ? strLogin : ""
                 },
                 success: function (response) {
                     if (response.success) {
-
-                        if ($('#payPalCheckoutInCart').val() === "true") {
-                            swal({
-                                title: '',
-                                html: "Identificamos que você já possui uma conta em nossa loja e lhe redirecionaremos para a página de pagamento. Por gentileza, revise seu pedido antes de concluí-lo!",
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then(function () {
-                                window.location.href = response.action;
-                            });
-                        } else {
-                            window.location.href = response.action;
-                        }
+                        window.location.href = response.action;
                     }
                     else
                     {
@@ -73,15 +55,6 @@ function checkLogin() {
                         } else {
                             swal('', response.msg, 'error');
                             $("#checkEmail").removeClass("loading");
-                        }
-                    }
-                },
-                complete: function () {
-                    if ($("[id^=googleVersion_]").length > 0 && typeof grecaptcha !== "undefined") {
-                        if ($("[id^=googleVersion_]").eq(0).val() === "2") {
-                            grecaptcha.reset();
-                        } else {
-                            generateRecaptcha($("[id^=googleModule]").val(), "body");
                         }
                     }
                 }
