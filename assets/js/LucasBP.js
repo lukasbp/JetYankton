@@ -1,33 +1,3 @@
-/* exibir informaçõe campo : valor */
-function escreva(){
-    var nome = document.getElementById("nome").value;
-    document.getElementById("id-nome").innerHTML = nome;
-
-    var nome1 = document.getElementById("email").value;
-    document.getElementById("id-email").innerHTML = nome1;
-
-    var nome2 = document.getElementById("tell").value;
-    document.getElementById("id-tell").innerHTML = nome2;
-
-    var nome3 = document.getElementById("ass").value;
-    document.getElementById("id-ass").innerHTML = nome3;
-
-    var nome4 = document.getElementById("msg").value;
-    document.getElementById("id-msg").innerHTML = nome4;
-}
-/* validaão forms */
-$('.ui.form')
-.form({
-    fields: {
-        ativo     : 'empty',
-        ativo5 : 'empty',
-        ativo3 : 'minLength[9]',
-        ativo4 : 'empty',
-        email : 'email'
-    }
-})
-;
-/* session storage */
 function session(){
     sessionStorage.setItem("nome", nome.value);
     sessionStorage.setItem("email", email.value);    
@@ -38,3 +8,76 @@ function session(){
     alert("Itens adicionado.");
     /**/
 }
+
+  function mostraDados(){
+        var nomeCapturado = document.getElementById('nomeid').value;
+        document.getElementById('nomeDigitado').innerHTML = nomeCapturado;
+        var emailCapturado = document.getElementById('emailid').value;
+        document.getElementById('emailDigitado').innerHTML = emailCapturado;
+        var foneCapturado = document.getElementById('foneid').value;
+        document.getElementById('foneDigitado').innerHTML = foneCapturado;
+        var assuntoCapturado = document.getElementById('assuntoid').value;
+        document.getElementById('assuntoDigitado').innerHTML = assuntoCapturado;
+        var msgCapturado = document.getElementById('msgid').value;
+        document.getElementById('msgDigitado').innerHTML = msgCapturado;  
+    } 
+  $('.ui.form')
+    .form({
+      fields: {
+        nomeid: {
+          identifier: 'nomeid',
+          rules: [
+          {
+            type   : 'empty',
+            prompt : 'Por favor digite seu nome'
+          }
+          ]
+        },
+        foneid: {
+          identifier: 'foneid',
+          rules: [
+          {
+            type   : 'minLength[9]',
+            prompt : 'Digite um telefone valido'
+          }
+          ]
+        },
+        emailid: {
+          identifier: 'emailid',
+          rules: [
+          {
+            type   : 'email',
+            prompt : 'Por favor digite um endereco de email valido'
+          }
+          ]
+        },
+        assuntoid: {
+          identifier: 'assuntoid',
+          rules: [
+          {
+            type   : 'empty',
+            prompt : 'Por favor digite o assunto'
+          }
+          ]
+        },
+        msgid: {
+          identifier: 'msgid',
+          rules: [
+          {
+              type   : 'empty',
+              prompt : 'A mensagem esta vazia'
+          }
+          ]
+        },
+      }
+    })
+    ;
+    function adicionar(){
+        sessionStorage.setItem("Nome", nomeid.value);
+        sessionStorage.setItem("E-mail", emailid.value);
+        sessionStorage.setItem("Telefone", foneid.value); 
+        sessionStorage.setItem("Assunto", assuntoid.value);
+        sessionStorage.setItem("Mensagem", msgid.value);
+    
+        alert("Valores salvos no sessionStorage");
+    }
